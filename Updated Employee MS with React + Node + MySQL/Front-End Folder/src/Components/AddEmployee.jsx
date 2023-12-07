@@ -10,7 +10,6 @@ const AddEmployee = () => {
     salary: "",
     address: "",
     category_id: "",
-    image: "",
   });
   const [category, setCategory] = useState([]);
   const navigate = useNavigate()
@@ -36,10 +35,11 @@ const AddEmployee = () => {
     formData.append('password', employee.password);
     formData.append('address', employee.address);
     formData.append('salary', employee.salary);
-    formData.append('image', employee.image);
     formData.append('category_id', employee.category_id);
+    
+    const data = Object.fromEntries(formData.entries());
 
-    axios.post('http://localhost:3000/auth/add_employee', formData)
+    axios.post('http://localhost:3000/auth/add_employee', data)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/employee')
@@ -137,18 +137,7 @@ const AddEmployee = () => {
               })}
             </select>
           </div>
-          <div className="col-12 mb-3">
-            <label className="form-label" for="inputGroupFile01">
-              Select Image
-            </label>
-            <input
-              type="file"
-              className="form-control rounded-0"
-              id="inputGroupFile01"
-              name="image"
-              onChange={(e) => setEmployee({...employee, image: e.target.files[0]})}
-            />
-          </div>
+
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
               Add Employee
